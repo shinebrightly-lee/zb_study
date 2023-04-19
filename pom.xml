@@ -26,6 +26,23 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+<!--    롬복 추가   -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.24</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- json 추가 -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20220320</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
