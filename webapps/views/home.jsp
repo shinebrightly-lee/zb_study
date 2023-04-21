@@ -32,15 +32,15 @@
 <body>
     <h1> &nbsp; 와이파이 정보 구하기 </h1>
         <div>
-            &nbsp; <a href=""> 홈 </a> &nbsp; | &nbsp;
-            <a href=""> 위치 히스토리 목록 </a> &nbsp; | &nbsp;
-            <a href=""> Open Api 와이파이 정보 가져오기 </a><br/> </br>
+            &nbsp; <a href="home"> 홈 </a> &nbsp; | &nbsp;
+            <a href="history"> 위치 히스토리 목록 </a> &nbsp; | &nbsp;
+            <a href="openApi_Info"> Open Api 와이파이 정보 가져오기 </a><br/> </br>
         </div>
 
     	<div >
     		<form action="" method="post" name="">
-    			&nbsp; LAT : <input type="text" id="lat" class=""/>
-    			, LNT : <input type="text"  id="lnt" class=""/>
+    			&nbsp; LAT : <input type="text" id="lat" value="0.0"/>
+    			, LNT : <input type="text"  id="lnt" value="0.0"/>
     			<input type="button" value="내 위치 가져오기" onclick="place();" />
     			<input type="button" value="근처 WIPI 정보 보기" class="" />
     		</form>
@@ -55,11 +55,7 @@
             <th>도로명 주소</th>
           </tr>
           <tr>
-            <td>a</td>
-            <td>d</td>
-            <td>d</td>
-            <td>d</td>
-            <td>sdsd</td>
+            <td colspan="5" align = "center"> 위치 정보를 입력 후 조회 해주세요. </td>
           </tr>
         </table>
 
