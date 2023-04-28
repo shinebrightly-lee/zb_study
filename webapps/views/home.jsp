@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList, main.model.Api" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,15 +35,15 @@
         <div>
             &nbsp; <a href="home"> 홈 </a> &nbsp; | &nbsp;
             <a href="history"> 위치 히스토리 목록 </a> &nbsp; | &nbsp;
-            <a href="openApi_Info"> Open Api 와이파이 정보 가져오기 </a><br/> </br>
+            <a href="openApi_Info" id="apiBtn" onclick="apiBtnDisabled();"> Open Api 와이파이 정보 가져오기 </a><br/> </br>
         </div>
 
     	<div >
-    		<form action="" method="post" name="">
-    			&nbsp; LAT : <input type="text" id="lat" value="0.0"/>
-    			, LNT : <input type="text"  id="lnt" value="0.0"/>
+    		<form action="closeRange20" method="post" >
+    			&nbsp; LAT : <input type="text" name="lat" id="lat" value="0.0"/>
+    			, LNT : <input type="text" name="lnt" id="lnt" value="0.0"/>
     			<input type="button" value="내 위치 가져오기" onclick="place();" />
-    			<input type="button" value="근처 WIPI 정보 보기" class="" />
+    			<input type="submit" value="근처 WIPI 정보 보기" />
     		</form>
     	</div>
         </br>
@@ -53,30 +54,50 @@
             <th>자치구</th>
             <th>와이파이명</th>
             <th>도로명 주소</th>
+            <th>상세주소</th>
+            <th>설치위치(층)</th>
+            <th>설치유형</th>
+            <th>설치기관</th>
+            <th>서비스 구분</th>
+            <th>망종류</th>
+            <th>설치년도</th>
+            <th>실내외구분</th>
+            <th>wifi 접속환경</th>
+            <th>Y 좌표</th>
+            <th>X 좌표</th>
+            <th>작업일자</th>
           </tr>
+          <%
+                ArrayList<Api> list = (ArrayList<Api>) request.getAttribute("list");
+                  if(list != null){
+                  for (Api api : list) { %>
+                    <tr>
+                        <td><%= api.getKM() %></td>
+                        <td><%= api.getMGR_NO() %></td>
+                        <td><%= api.getWRDOFC() %></td>
+                        <td><%= api.getMAIN_NM() %></td>
+                        <td><%= api.getADRES1() %></td>
+                        <td><%= api.getADRES2() %></td>
+                        <td><%= api.getINSTL_FLOOR() %></td>
+                        <td><%= api.getINSTL_TY() %></td>
+                        <td><%= api.getINSTL_MBY() %></td>
+                        <td><%= api.getSVC_SE() %></td>
+                        <td><%= api.getCMCWR() %></td>
+                        <td><%= api.getCNSTC_YEAR() %></td>
+                        <td><%= api.getINOUT_DOOR() %></td>
+                        <td><%= api.getREMARS3() %></td>
+                        <td><%= api.getLAT() %></td>
+                        <td><%= api.getLNT() %></td>
+                        <td><%= api.getWORK_DTTM() %></td>
+                    </tr>
+               <%  } } else{ %>
           <tr>
-            <td colspan="5" align = "center"> 위치 정보를 입력 후 조회 해주세요. </td>
+            <td colspan="17" align = "center"> 위치 정보를 입력 후 조회 해주세요. </td>
           </tr>
+          <%  }  %>
         </table>
-
-
-    	<%-- <div id="">
-    		 <div id="lists">
-    		<%for(BoardDTO dto : lists){ %>
-    			<dl>
-    				<dd class="num"><%=dto.getNum() %></dd>
-    				<dd class="subject">
-    				<a href="<%=articleUrl %>&num=<%=dto.getNum()%>">
-    				<%=dto.getSubject() %></a>
-    				<!-- currentPage는 현재 내가보고있는 페이지 -->
-    				</dd>
-    				<dd class="name"><%=dto.getName() %></dd>
-    				<dd class="created"><%=dto.getCreated() %></dd>
-    				<dd class="hitCount"><%=dto.getHitCount() %></dd>
-    			</dl>
-    			<%} %>
-    		</div> --%>
-
+   <div>
+   </div>
 
     </div>
 </body>
@@ -99,5 +120,9 @@
             document.getElementById('lat').value = latitude;
             document.getElementById('lnt').value = longitude;
         }
+        function apiBtnDisabled(){
+            location.href="openApi_Info";
+        }
+
     </script>
 </html>

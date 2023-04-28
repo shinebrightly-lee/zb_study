@@ -5,6 +5,7 @@ import lombok.*;
 @Getter
 @Setter
 public class Api {
+    private Double KM;
     private String MGR_NO;
     private String WRDOFC;
     private String MAIN_NM;
