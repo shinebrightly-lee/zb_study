@@ -97,5 +97,10 @@ public class ApiService {
             return apiDAO.selectOrderDistance(lat,lnt);
         }
 
+        public Api selectDetail(String mgrNo) throws SQLException {
+            ApiDAO apiDAO = new ApiDAO();
+            return apiDAO.selectDetail(mgrNo);
+        }
+
 
 }

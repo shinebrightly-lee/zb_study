@@ -114,4 +114,38 @@ public class ApiDAO {
             return apiList;
     }
 
+    public Api selectDetail(String mgrNo)throws  SQLException{
+            Api api = new Api();
+        try{
+            String SQL = "SELECT * FROM api WHERE MGR_NO = ?";
+            jdbc.pstmt = jdbc. conn.prepareStatement(SQL);
+            jdbc.pstmt.setString(1,mgrNo);
+            jdbc.rs = jdbc.pstmt.executeQuery();
+
+            while (jdbc.rs.next()){
+                api.setMGR_NO(jdbc.rs.getString("MGR_NO"));
+                api.setWRDOFC(jdbc.rs.getString("WRDOFC"));
+                api.setMAIN_NM(jdbc.rs.getString("MAIN_NM"));
+                api.setADRES1(jdbc.rs.getString("ADRES1"));
+                api.setADRES2(jdbc.rs.getString("ADRES2"));
+                api.setINSTL_FLOOR(jdbc.rs.getString("INSTL_FLOOR"));
+                api.setINSTL_TY(jdbc.rs.getString("INSTL_TY"));
+                api.setINSTL_MBY(jdbc.rs.getString("INSTL_MBY"));
+                api.setSVC_SE(jdbc.rs.getString("SVC_SE"));
+                api.setCMCWR(jdbc.rs.getString("CMCWR"));
+                api.setCNSTC_YEAR(jdbc.rs.getString("CNSTC_YEAR"));
+                api.setINOUT_DOOR(jdbc.rs.getString("INOUT_DOOR"));
+                api.setREMARS3(jdbc.rs.getString("REMARS3"));
+                api.setLAT(jdbc.rs.getDouble("LAT"));
+                api.setLNT(jdbc.rs.getDouble("LNT"));
+                api.setWORK_DTTM(jdbc.rs.getString("WORK_DTTM"));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            jdbc.closeConn();
+        }
+        return api;
+    }
+
 }

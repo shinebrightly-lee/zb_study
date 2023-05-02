@@ -4,6 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title> 와이파이 정보 구하기 </title>
+</head>
 <style>
 #customers {
   font-family: Arial, Helvetica, sans-serif;
@@ -28,20 +30,15 @@
   color: white;
 }
 </style>
-<title> 와이파이 정보 구하기 </title>
-</head>
 <body>
     <h1> &nbsp; 와이파이 정보 구하기 </h1>
-        <div>
-            &nbsp; <a href="home"> 홈 </a> &nbsp; | &nbsp;
-            <a href="history"> 위치 히스토리 목록 </a> &nbsp; | &nbsp;
-            <a href="openApi_Info" id="apiBtn" onclick="apiBtnDisabled();"> Open Api 와이파이 정보 가져오기 </a><br/> </br>
-        </div>
-
+    <jsp:include page="header.jsp" />
     	<div >
-    		<form action="closeRange20" method="post" >
-    			&nbsp; LAT : <input type="text" name="lat" id="lat" value="0.0"/>
-    			, LNT : <input type="text" name="lnt" id="lnt" value="0.0"/>
+    		 <form action="closeRange20" method="post" >
+    		 <% double lat = request.getAttribute("lat") != null ? (Double) request.getAttribute("lat") : 0.0; %>
+    		 <% double lnt = request.getAttribute("lnt") != null ? (Double) request.getAttribute("lnt") : 0.0; %>
+    			&nbsp; LAT : <input type="text" name="lat" id="lat" value="<%= lat %>"/>
+    			, LNT : <input type="text" name="lnt" id="lnt" value="<%= lnt %>"/>
     			<input type="button" value="내 위치 가져오기" onclick="place();" />
     			<input type="submit" value="근처 WIPI 정보 보기" />
     		</form>
@@ -75,7 +72,7 @@
                         <td><%= api.getKM() %></td>
                         <td><%= api.getMGR_NO() %></td>
                         <td><%= api.getWRDOFC() %></td>
-                        <td><%= api.getMAIN_NM() %></td>
+                        <td><a href="selectDetail?KM=<%= api.getKM() %>&MGR_NO=<%= api.getMGR_NO() %>"><%= api.getMAIN_NM() %></a></td>
                         <td><%= api.getADRES1() %></td>
                         <td><%= api.getADRES2() %></td>
                         <td><%= api.getINSTL_FLOOR() %></td>
@@ -123,6 +120,5 @@
         function apiBtnDisabled(){
             location.href="openApi_Info";
         }
-
     </script>
 </html>
