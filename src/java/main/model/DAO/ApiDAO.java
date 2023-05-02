@@ -1,29 +1,16 @@
 package main.model.DAO;
 
+import common.*;
 import main.model.*;
 
 import java.sql.*;
 import java.util.*;
 
 public class ApiDAO {
-
-    private Connection conn;
-    private PreparedStatement pstmt;
-    private ResultSet rs;
+    private JDBC jdbc;
 
     public ApiDAO() {
-        String url = "jdbc:mysql://localhost:3306/java"; // 서버 주소
-        String user = "root"; //  접속자 id
-        String pw = "1233"; // 접속자 pw
-
-        // JDBC 드라이버 로드 및 접속
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(url, user, pw);
-            conn.setAutoCommit(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.jdbc = new JDBC();
     }
 
     public void insertApi(ArrayList<Api> apiArr) throws SQLException {
@@ -33,67 +20,56 @@ public class ApiDAO {
                     "INSTL_FLOOR, INSTL_TY, INSTL_MBY, SVC_SE, CMCWR, CNSTC_YEAR, INOUT_DOOR, REMARS3, LAT, LNT, WORK_DTTM)" +
                     "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-            pstmt = conn.prepareStatement(SQL);
+            jdbc.pstmt = jdbc.conn.prepareStatement(SQL);
             int idx = 1;
             for ( Api api : apiArr ) {
 
-                    pstmt.setString(1, api.getMGR_NO());
-                    pstmt.setString(2, api.getWRDOFC());
-                    pstmt.setString(3, api.getMAIN_NM());
-                    pstmt.setString(4, api.getADRES1());
-                    pstmt.setString(5, api.getADRES2());
-                    pstmt.setString(6, api.getINSTL_FLOOR());
-                    pstmt.setString(7, api.getINSTL_TY());
-                    pstmt.setString(8, api.getINSTL_MBY());
-                    pstmt.setString(9, api.getSVC_SE());
-                    pstmt.setString(10, api.getCMCWR());
-                    pstmt.setString(11, api.getCNSTC_YEAR());
-                    pstmt.setString(12, api.getINOUT_DOOR());
-                    pstmt.setString(13, api.getREMARS3());
-                    pstmt.setDouble(14, api.getLAT());
-                    pstmt.setDouble(15, api.getLNT());
-                    pstmt.setString(16, api.getWORK_DTTM());
+                jdbc.pstmt.setString(1, api.getMGR_NO());
+                jdbc.pstmt.setString(2, api.getWRDOFC());
+                jdbc.pstmt.setString(3, api.getMAIN_NM());
+                jdbc.pstmt.setString(4, api.getADRES1());
+                jdbc.pstmt.setString(5, api.getADRES2());
+                jdbc.pstmt.setString(6, api.getINSTL_FLOOR());
+                jdbc.pstmt.setString(7, api.getINSTL_TY());
+                jdbc.pstmt.setString(8, api.getINSTL_MBY());
+                jdbc.pstmt.setString(9, api.getSVC_SE());
+                jdbc.pstmt.setString(10, api.getCMCWR());
+                jdbc.pstmt.setString(11, api.getCNSTC_YEAR());
+                jdbc.pstmt.setString(12, api.getINOUT_DOOR());
+                jdbc.pstmt.setString(13, api.getREMARS3());
+                jdbc.pstmt.setDouble(14, api.getLAT());
+                jdbc.pstmt.setDouble(15, api.getLNT());
+                jdbc.pstmt.setString(16, api.getWORK_DTTM());
 
-                    pstmt.addBatch();
-                    pstmt.clearParameters();
+                jdbc.pstmt.addBatch();
+                jdbc.pstmt.clearParameters();
                     if (( idx % 10000 ) == 0){
-                        pstmt.executeBatch() ;
-                        pstmt.clearBatch();
-                        conn.commit() ;
+                        jdbc.pstmt.executeBatch() ;
+                        jdbc.pstmt.clearBatch();
+                        jdbc.conn.commit() ;
                     }
                     idx++;
             }
-            pstmt.executeBatch() ;
-            conn.commit() ;
+            jdbc.pstmt.executeBatch() ;
+            jdbc.conn.commit() ;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        finally {
-//                pstmt.close();
-//                conn.close();
-//        }
+        finally {
+            jdbc.closeConn();
+        }
     }
 
     public void truncateTable() throws SQLException {
-        try{
+        try {
             String SQL = "TRUNCATE TABLE api";
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(SQL);
-        }catch (SQLException e){
+            jdbc.stmt = jdbc.conn.createStatement();
+            jdbc.stmt.executeUpdate(SQL);
+        } catch (SQLException e) {
             e.printStackTrace();
-        }
-//        finally {
-//            conn.close();
+        } //finally { // insert 할때 사용하기에 우선 주석
+//            jdbc.closeConn();
 //        }
-    }
-
-    public void closeConn(){
-        try{
-            pstmt.close();
-            conn.close();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
     }
 
     public ArrayList<Api> selectOrderDistance(double lat, double lnt)throws  SQLException{
@@ -103,35 +79,37 @@ public class ApiDAO {
                                     " FROM api" +
                                     " ORDER BY KM" +
                                     " LIMIT 20 ";
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.setDouble(1,lnt);
-            pstmt.setDouble(2,lat);
-            pstmt.setDouble(3,lnt);
-            ResultSet rs = pstmt.executeQuery();
+            jdbc.pstmt = jdbc. conn.prepareStatement(SQL);
+            jdbc.pstmt.setDouble(1,lnt);
+            jdbc.pstmt.setDouble(2,lat);
+            jdbc.pstmt.setDouble(3,lnt);
+            jdbc.rs = jdbc.pstmt.executeQuery();
 
-            while (rs.next()){
+            while (jdbc.rs.next()){
                 Api api = new Api();
-                api.setKM(rs.getDouble("KM"));
-                api.setMGR_NO(rs.getString("MGR_NO"));
-                api.setWRDOFC(rs.getString("WRDOFC"));
-                api.setMAIN_NM(rs.getString("MAIN_NM"));
-                api.setADRES1(rs.getString("ADRES1"));
-                api.setADRES2(rs.getString("ADRES2"));
-                api.setINSTL_FLOOR(rs.getString("INSTL_FLOOR"));
-                api.setINSTL_TY(rs.getString("INSTL_TY"));
-                api.setINSTL_MBY(rs.getString("INSTL_MBY"));
-                api.setSVC_SE(rs.getString("SVC_SE"));
-                api.setCMCWR(rs.getString("CMCWR"));
-                api.setCNSTC_YEAR(rs.getString("CNSTC_YEAR"));
-                api.setINOUT_DOOR(rs.getString("INOUT_DOOR"));
-                api.setREMARS3(rs.getString("REMARS3"));
-                api.setLAT(rs.getDouble("LAT"));
-                api.setLNT(rs.getDouble("LNT"));
-                api.setWORK_DTTM(rs.getString("WORK_DTTM"));
+                api.setKM(Math.floor(jdbc.rs.getDouble("KM")*10000)/10000.0);
+                api.setMGR_NO(jdbc.rs.getString("MGR_NO"));
+                api.setWRDOFC(jdbc.rs.getString("WRDOFC"));
+                api.setMAIN_NM(jdbc.rs.getString("MAIN_NM"));
+                api.setADRES1(jdbc.rs.getString("ADRES1"));
+                api.setADRES2(jdbc.rs.getString("ADRES2"));
+                api.setINSTL_FLOOR(jdbc.rs.getString("INSTL_FLOOR"));
+                api.setINSTL_TY(jdbc.rs.getString("INSTL_TY"));
+                api.setINSTL_MBY(jdbc.rs.getString("INSTL_MBY"));
+                api.setSVC_SE(jdbc.rs.getString("SVC_SE"));
+                api.setCMCWR(jdbc.rs.getString("CMCWR"));
+                api.setCNSTC_YEAR(jdbc.rs.getString("CNSTC_YEAR"));
+                api.setINOUT_DOOR(jdbc.rs.getString("INOUT_DOOR"));
+                api.setREMARS3(jdbc.rs.getString("REMARS3"));
+                api.setLAT(jdbc.rs.getDouble("LAT"));
+                api.setLNT(jdbc.rs.getDouble("LNT"));
+                api.setWORK_DTTM(jdbc.rs.getString("WORK_DTTM"));
                 apiList.add(api);
             }
         }catch (SQLException e){
             e.printStackTrace();
+        }finally {
+            jdbc.closeConn();
         }
             return apiList;
     }

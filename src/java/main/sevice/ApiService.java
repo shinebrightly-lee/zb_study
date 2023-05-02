@@ -86,7 +86,6 @@ public class ApiService {
                                 apiArr.add(api);
                         }
                         apiDao.insertApi(apiArr);
-                        apiDao.closeConn();
                 }catch (Exception e){
                         e.printStackTrace();
                 }
