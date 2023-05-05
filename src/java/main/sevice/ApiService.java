@@ -1,7 +1,7 @@
 package main.sevice;
 
-import main.model.*;
-import main.model.DAO.*;
+import main.model.dao.*;
+import main.model.dto.*;
 import org.json.*;
 
 import java.io.*;

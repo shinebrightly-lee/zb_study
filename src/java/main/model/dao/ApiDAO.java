@@ -1,7 +1,7 @@
-package main.model.DAO;
+package main.model.dao;
 
 import common.*;
-import main.model.*;
+import main.model.dto.*;
 
 import java.sql.*;
 import java.util.*;
@@ -20,6 +20,7 @@ public class ApiDAO {
                     "INSTL_FLOOR, INSTL_TY, INSTL_MBY, SVC_SE, CMCWR, CNSTC_YEAR, INOUT_DOOR, REMARS3, LAT, LNT, WORK_DTTM)" +
                     "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
+            jdbc.conn.setAutoCommit(false);
             jdbc.pstmt = jdbc.conn.prepareStatement(SQL);
             int idx = 1;
             for ( Api api : apiArr ) {

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="main.model.Api" %>
+<%@ page import="main.model.dto.Api" %>
 <!DOCTYPE html>
 <html> 
 	<head> 
@@ -36,6 +36,10 @@
             <%
                 Api api = (Api) request.getAttribute("detail");
             %>
+            <select>
+                <option> 북마크 그룹 이름 선택 </option>
+            </select>
+            <input type="button" value="즐겨찾기 추가하기" />
                     <table  id="customers">
                         <tr>
                             <th>거리(Km)</th>

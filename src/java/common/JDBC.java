@@ -16,7 +16,6 @@ public class JDBC{
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url, user, pw);
-            conn.setAutoCommit(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -25,8 +24,8 @@ public class JDBC{
     public void closeConn(){
         try{
             if(conn != null) conn.close();
-            if(pstmt != null) pstmt.close();
             if(stmt != null) stmt.close();
+            if(pstmt != null) pstmt.close();
             if(rs != null) rs.close();
         }catch (SQLException e){
             e.printStackTrace();

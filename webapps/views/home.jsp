@@ -1,35 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList, main.model.Api" %>
+<%@ page import="java.util.ArrayList, main.model.dto.Api" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title> 와이파이 정보 구하기 </title>
+<!-- <link href="/resources/style.css" rel="stylesheet"> -->
+	<style>
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+    #customers tr:hover {background-color: #ddd;}
+
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
 </head>
-<style>
-#customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
-}
-</style>
 <body>
     <h1> &nbsp; 와이파이 정보 구하기 </h1>
     <jsp:include page="header.jsp" />
@@ -40,7 +41,7 @@
     			&nbsp; LAT : <input type="text" name="lat" id="lat" value="<%= lat %>"/>
     			, LNT : <input type="text" name="lnt" id="lnt" value="<%= lnt %>"/>
     			<input type="button" value="내 위치 가져오기" onclick="place();" />
-    			<input type="submit" value="근처 WIPI 정보 보기" />
+    			<input type="submit" value="근처 WIFI 정보 보기" />
     		</form>
     	</div>
         </br>
