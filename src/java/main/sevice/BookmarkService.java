@@ -27,4 +27,25 @@ public class BookmarkService {
         bookmarkDAO.selectGroupDelete(id);
     }
 
+    public void bookmarkAdd(Double km, String mgr_no, String wifi, String name){
+        bookmarkDAO = new BookmarkDAO();
+        bookmarkDAO.bookmarkListAdd(km, mgr_no, wifi, name);
+    }
+
+    public ArrayList<Bookmark> bookmarkListAll(){
+        bookmarkDAO = new BookmarkDAO();
+        return bookmarkDAO.selectAllBookmarkList();
+    }
+
+    public void bookmarkDelete(int id){
+        bookmarkDAO = new BookmarkDAO();
+        bookmarkDAO.selectBookmarkDelete(id);
+    }
+
+    public double selectKM(String mgr_no){
+        bookmarkDAO = new BookmarkDAO();
+        return bookmarkDAO.selectKM(mgr_no);
+    }
+
+
 }

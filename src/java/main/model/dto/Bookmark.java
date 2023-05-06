@@ -4,7 +4,8 @@ import lombok.*;
 
 @Getter
 @Setter
-public class BookmarkList {
+public class Bookmark {
+    private String  mgr_no ;
     private int  id ;
     private  String book_name;
     private String wifi_name;

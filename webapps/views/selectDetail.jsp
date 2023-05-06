@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="main.model.dto.Api" %>
+<%@ page import="main.model.dto.Api, java.util.ArrayList, main.model.dto.BookmarkGroup" %>
 <!DOCTYPE html>
 <html> 
 	<head> 
@@ -33,13 +33,14 @@
 	<body>
     	<h1> &nbsp; 와이파이 정보 구하기 </h1>
         <jsp:include page="header.jsp" />
-            <%
-                Api api = (Api) request.getAttribute("detail");
-            %>
-            <select>
+            <% Api api = (Api) request.getAttribute("detail"); %>
+            <select id="select_bookmark_name">
+            <% ArrayList<BookmarkGroup> list = (ArrayList<BookmarkGroup>) request.getAttribute("list");  %>
                 <option> 북마크 그룹 이름 선택 </option>
+                <% for (BookmarkGroup group : list) { %>
+                    <option name="select_bookmark_name" value="<%= group.getBook_name() %>"> <%= group.getBook_name() %> </option> <%  }  %>
             </select>
-            <input type="button" value="즐겨찾기 추가하기" />
+            <input type="button" value="북마크 추가하기" onclick="bookmarkAdd(<%= api.getKM() %>,'<%= api.getMAIN_NM() %>', '<%= api.getMGR_NO() %>');"/>
                     <table  id="customers">
                         <tr>
                             <th>거리(Km)</th>
@@ -111,4 +112,29 @@
                         </tr>
                     </table>
 	</body>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+    function bookmarkAdd(km, wifi, mgr_no){
+        const select_bookmark_name = document.getElementById('select_bookmark_name');
+        const name = select_bookmark_name.options[select_bookmark_name.selectedIndex].value;
+         axios.post('/bookmarkAdd', {
+           km : km,
+           wifi : wifi,
+           mgr_no : mgr_no,
+           name : name
+         }, {
+           headers: {
+             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+           }
+         })
+         .then(function (response) {
+           console.log(response);
+         })
+         .catch(function (error) {
+           console.log(error);
+         });
+
+          location.href="bookmarkList";
+     }
+    </script>
 </html>
