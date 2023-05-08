@@ -128,13 +128,14 @@
            }
          })
          .then(function (response) {
+           location.href="bookmarkList";
            console.log(response);
          })
          .catch(function (error) {
            console.log(error);
          });
 
-          location.href="bookmarkList";
+
      }
     </script>
 </html>

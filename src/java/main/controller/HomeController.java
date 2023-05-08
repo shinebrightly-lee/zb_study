@@ -136,8 +136,10 @@ public class HomeController extends HttpServlet {
             String mgrNo = req.getParameter("mgr_no");
             String name = req.getParameter("name");
             bookmarkService.bookmarkAdd( km, mgrNo, wifi, name );
-            ArrayList<Bookmark> bookmark = bookmarkService.bookmarkListAll();
-            req.setAttribute("list", bookmark);
+            resp.setStatus(200);
+            return;
+//            ArrayList<Bookmark> bookmark = bookmarkService.bookmarkListAll();
+//            req.setAttribute("list", bookmark);
         }
         uri = !(uri.equals("")) ? uri : req.getRequestURI().equals("/")  ?  "/home.jsp"  :  req.getRequestURI().concat(".jsp");
         RequestDispatcher rd = req.getRequestDispatcher("/views".concat(uri));
